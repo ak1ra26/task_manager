@@ -12,7 +12,7 @@
 </ul>
 <h2>Usage</h2>
 
-<pre><code>$ ./task-manager.sh [-h|--help] [-v|--verbose] [-f|--file &lt;task_file&gt;]</code></pre>
+<pre><code>$ ./tasks.sh [-h|--help] [-v|--verbose] [-f|--file &lt;task_file&gt;]</code></pre>
 
 <h3>Options:</h3>
 <ul>
