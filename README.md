@@ -20,3 +20,7 @@
   <li><code>-v, --verbose</code>: Enable verbose output</li>
   <li><code>-f, --file &lt;task_file&gt;</code>: Path to the task file (default: $HOME/.cache/tasks.txt)</li>
 </ul>
+
+<p>To add an alias for convenient use, add the following line to your .bashrc or .bash_profile file:</p>
+<p><code>alias task='path/to/tasks.sh'</code></p>
+<p>This will allow you to call the script by simply typing "task" in the terminal.</p>
