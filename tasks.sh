@@ -63,13 +63,18 @@ function clear_screen {
 function display_tasks {
     verbose "Displaying tasks"
     echo "Tasks:"
-    cat -n "$TASK_FILE"
+    if [ -s "$TASK_FILE" ]; then
+        cat -n "$TASK_FILE"
+    else
+        echo "No tasks yet"
+    fi
 }
 
 # Add a new task to the list
 function add_task {
     verbose "Adding new task"
     read -p "Enter task: " task
+#     echo "$(date '+%Y-%m-%d %H:%M') $task" >> "$TASK_FILE" # if it is necessary to keep track of the task addition time.
     echo "$task" >> "$TASK_FILE"
     clear_screen
     echo "Task added."
