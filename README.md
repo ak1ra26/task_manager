@@ -18,5 +18,5 @@
 <ul>
   <li><code>-h, --help</code>: Display usage information</li>
   <li><code>-v, --verbose</code>: Enable verbose output</li>
-  <li><code>-f, --file &lt;task_file&gt;</code>: Path to the task file (default: /media/Data/Mega/sh/.cache/tasks.txt)</li>
+  <li><code>-f, --file &lt;task_file&gt;</code>: Path to the task file (default: $HOME/.cache/tasks.txt)</li>
 </ul>
