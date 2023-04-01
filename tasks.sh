@@ -131,7 +131,7 @@ function delete_task {
 
 # Main loop
 while true; do
-    printf "What do you want to do? (${RED}d${NC}isplay, ${RED}a${NC}dd, ${RED}e${NC}mdit, ${RED}r${NC}emove, ${RED}q${NC} - exit): "
+    printf "What do you want to do? (${RED}d${NC}isplay, ${RED}a${NC}dd, ${RED}e${NC}dit, ${RED}r${NC}emove, ${RED}q${NC} - exit): "
     read choice
     clear_screen
     case $choice in
