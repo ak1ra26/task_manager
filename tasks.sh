@@ -30,7 +30,7 @@ done
 # Verbose output function
 function verbose {
     if [ "$VERBOSE" = true ]; then
-        echo "$@"
+        echo -e "$@"
     fi
 }
 
@@ -47,7 +47,7 @@ if [ ! -f "$TASK_FILE" ]; then
         exit 1
     fi
     else
-    verbose "$(echo -e "${GREEN}OK${NC}")"
+    verbose "${GREEN}OK${NC}"
 fi
 
 # Function to clear the screen
@@ -135,19 +135,19 @@ while true; do
     read choice
     clear_screen
     case $choice in
-        d)
+        d|в)
             display_tasks;;
-        a)
+        a|ф)
             add_task
             display_tasks;;
-        e)
+        e|у)
             display_tasks
             edit_task;;
-        r)
+        r|к)
             display_tasks
             delete_task
             display_tasks;;
-        q)
+        q|й)
             break;;
         *)
             echo -e "${RED}Invalid choice.${NC}";;
