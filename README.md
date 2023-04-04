@@ -25,4 +25,4 @@
 <p>To add an alias for convenient use, add the following line to your .bashrc or .bash_profile file:</p>
 <p><code>alias task='path/to/tasks.sh'</code></p>
 <p>This will allow you to call the script by simply typing "task" in the terminal.</p>
-<p><strong>Note:</strong> If a task starts with "!", it will be displayed in \033[34mblue color\033[0m.</p>
+<p><strong>Note:</strong> If a task starts with "!", it will be displayed in <span style="color: blue;">blue color</span>.</p>
