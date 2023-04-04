@@ -30,7 +30,7 @@ done
 # Verbose output function
 function verbose {
     if [ "$VERBOSE" = true ]; then
-        echo "$@"
+        echo -e "$@"
     fi
 }
 
@@ -47,7 +47,7 @@ if [ ! -f "$TASK_FILE" ]; then
         exit 1
     fi
     else
-    verbose "$(echo -e "${GREEN}OK${NC}")"
+    verbose "${GREEN}OK${NC}"
 fi
 
 # Function to clear the screen
