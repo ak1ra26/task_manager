@@ -5,6 +5,7 @@ TASK_FILE="$HOME/.cache/tasks.txt"
 VERBOSE=false
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Usage information function
@@ -14,6 +15,8 @@ function usage {
     echo "  -h, --help              Display this usage information"
     echo "  -v, --verbose           Enable verbose output"
     echo "  -f, --file <task_file>  Path to the task file (default: $TASK_FILE)"
+    echo ""
+    echo -e "Hint: If a task starts with \"!\", it will be displayed in ${BLUE}blue color${NC}."
 }
 
 # Parse command line arguments
@@ -63,12 +66,25 @@ function clear_screen {
 function display_tasks {
     verbose "Displaying tasks"
     echo "Tasks:"
-    if [ -s "$TASK_FILE" ]; then
-        cat -n "$TASK_FILE"
+    if [ -s "$TASK_FILE" ]; then # Checks if the task file is not empty
+        lineno=1 # Initializes the line counter
+        while read -r line; do
+            if [[ $line == !* ]]; then # Checks if the line starts with "!"
+            line="${line:1}" # Removes the first character from the line if it is "!"
+            echo -e "${BLUE}$lineno. $line${NC}"
+            else
+            echo "$lineno. $line"
+            fi
+
+            ((lineno++)) # Increments the line counter by 1
+        done < "$TASK_FILE"
     else
         echo "No tasks yet"
     fi
 }
+
+
+
 
 # Add a new task to the list
 function add_task {
