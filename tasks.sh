@@ -89,8 +89,14 @@ function edit_task {
     if [[ "$task_num" = "q" || "$task" = "й" ]]; then
         return
     fi
+    if ! [[ "$task_num" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED}Invalid input. Please enter a number.${NC}"
+        edit_task
+        return
+    fi
     if [ "$(wc -l < "$TASK_FILE")" -lt "$task_num" ]; then
         echo -e "${RED}Invalid task number.${NC}"
+        edit_task
         return
     fi
 
@@ -127,8 +133,14 @@ function delete_task {
     if [[ "$task_num" = "q" || "$task_num" = "й" ]]; then
         return
     fi
-    if [ "$(wc -l < "$TASK_FILE")" -lt "$task_num" ]; then
+    if ! [[ "$task_num" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED}Invalid input. Please enter a number.${NC}"
+        delete_task
+        return
+    fi
+    if [ "$task_num" -gt "$(wc -l < "$TASK_FILE")" ]; then
         echo -e "${RED}Invalid task number.${NC}"
+        delete_task
         return
     fi
     sed -n "${task_num}p" "$TASK_FILE" | awk '{print "\033[0;31m"$0"\033[0m"}'
@@ -143,6 +155,7 @@ function delete_task {
         display_tasks
     fi
 }
+
 
 # Main loop
 while true; do
