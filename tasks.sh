@@ -30,7 +30,7 @@ done
 # Verbose output function
 function verbose {
     if [ "$VERBOSE" = true ]; then
-        echo -e "$@"
+        echo "$@"
     fi
 }
 
@@ -47,7 +47,7 @@ if [ ! -f "$TASK_FILE" ]; then
         exit 1
     fi
     else
-    verbose "${GREEN}OK${NC}"
+    verbose "$(echo -e "${GREEN}OK${NC}")"
 fi
 
 # Function to clear the screen
@@ -73,18 +73,22 @@ function display_tasks {
 # Add a new task to the list
 function add_task {
     verbose "Adding new task"
-    read -p "Enter task: " task
+    read -p "Enter task (q to return to main menu): " task
+    if [[ "$task" = "q" || "$task" = "й" ]]; then
+        return
+    fi
 #     echo "$(date '+%Y-%m-%d %H:%M') $task" >> "$TASK_FILE" # if it is necessary to keep track of the task addition time.
     echo "$task" >> "$TASK_FILE"
-    clear_screen
     echo "Task added."
 }
 
 # Edit an existing task
 function edit_task {
     verbose "Editing a task"
-    read -p "Enter the number of the task to edit: " task_num
-
+    read -p "Enter the number of the task to edit (q to return to main menu): " task_num
+    if [[ "$task_num" = "q" || "$task" = "й" ]]; then
+        return
+    fi
     if [ "$(wc -l < "$TASK_FILE")" -lt "$task_num" ]; then
         echo -e "${RED}Invalid task number.${NC}"
         return
@@ -108,8 +112,8 @@ function edit_task {
         edited_task=$(cat "$tmp_file")
         sed -i "${task_num}s/.*/$edited_task/" "$TASK_FILE"
         clear_screen
-        echo "Task edited."
         display_tasks
+        echo -e "\nTask edited."
     fi
 
     # remove the temporary file
@@ -119,14 +123,25 @@ function edit_task {
 # Remove a task from the list
 function delete_task {
     verbose "Deleting a task"
-    read -p "Enter the number of the task to delete: " task_num
+    read -p "Enter the number of the task to delete (q to return to main menu): " task_num
+    if [[ "$task_num" = "q" || "$task_num" = "й" ]]; then
+        return
+    fi
     if [ "$(wc -l < "$TASK_FILE")" -lt "$task_num" ]; then
         echo -e "${RED}Invalid task number.${NC}"
         return
     fi
-    sed -i "${task_num}d" "$TASK_FILE"
-    clear_screen
-    echo "Task deleted."
+    sed -n "${task_num}p" "$TASK_FILE" | awk '{print "\033[0;31m"$0"\033[0m"}'
+    read -p "Are you sure you want to delete this task? (y/n): " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        sed -i "${task_num}d" "$TASK_FILE"
+        clear_screen
+        display_tasks
+        echo -e "\nTask deleted."
+    else
+        clear_screen
+        display_tasks
+    fi
 }
 
 # Main loop
@@ -138,15 +153,13 @@ while true; do
         d|в)
             display_tasks;;
         a|ф)
-            add_task
-            display_tasks;;
+            add_task;;
         e|у)
             display_tasks
             edit_task;;
         r|к)
             display_tasks
-            delete_task
-            display_tasks;;
+            delete_task;;
         q|й)
             break;;
         *)
