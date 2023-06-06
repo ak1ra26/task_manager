@@ -3,9 +3,11 @@
 # Path to the tasks file
 TASK_FILE="$HOME/.cache/tasks.txt"
 VERBOSE=false
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
+c_red='\033[0;31m'
+c_green='\033[0;32m'
+c_blue='\033[0;34m'
+c_gray
+c_pink
 NC='\033[0m'
 
 # Usage information function
@@ -16,7 +18,11 @@ function usage {
     echo "  -v, --verbose           Enable verbose output"
     echo "  -f, --file <task_file>  Path to the task file (default: $TASK_FILE)"
     echo ""
-    echo -e "Hint: If a task starts with \"!\", it will be displayed in ${BLUE}blue color${NC}."
+    echo "Hints:"
+    echo -e "Tasks starting with \"!\" will be displayed in ${c_blue}blue${NC} - important tasks."
+    echo -e "Tasks starting with \"-\" will be displayed in ${c_gray}gray${NC} - postponed tasks."
+    echo -e "Tasks starting with \"@w\" will be displayed in ${c_pink}pink${NC} - tasks that can be done while working."
+    echo -e "Tasks starting with \"@f\" will be displayed in ${c_green}green${NC} - tasks to do in your days off."
 }
 
 # Parse command line arguments
@@ -50,7 +56,7 @@ if [ ! -f "$TASK_FILE" ]; then
         exit 1
     fi
     else
-    verbose "${GREEN}OK${NC}"
+    verbose "${c_green}OK${NC}"
 fi
 
 # Function to clear the screen
@@ -106,12 +112,12 @@ function edit_task {
         return
     fi
     if ! [[ "$task_num" =~ ^[0-9]+$ ]]; then
-        echo -e "${RED}Invalid input. Please enter a number.${NC}"
+        echo -e "${c_red}Invalid input. Please enter a number.${NC}"
         edit_task
         return
     fi
     if [ "$(wc -l < "$TASK_FILE")" -lt "$task_num" ]; then
-        echo -e "${RED}Invalid task number.${NC}"
+        echo -e "${c_red}Invalid task number.${NC}"
         edit_task
         return
     fi
